@@ -29,15 +29,19 @@ def index(request):
     return response
 
 def about(request):
-    if request.session.test_cookie_worked():
-        print("TEST COOKIE WORKED!")
-        request.session.delete_test_cookie()
 
-    # prints out whether the method is a GET or a POST
-    print(request.method)
-    # prints out the user name, if no one is logged in it prints `AnonymousUser`
-    print(request.user)
-    return render(request, 'rango/about.html', {})
+    # # prints out whether the method is a GET or a POST
+    # print(request.method)
+    # # prints out the user name, if no one is logged in it prints `AnonymousUser`
+    # print(request.user)
+
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+
+    response = render(request, 'rango/index.html', context_dict)
+
+    return response
+
 
 def show_category(request, category_name_slug):
     # Create a context dictionary which we can pass # to the template rendering engine.
